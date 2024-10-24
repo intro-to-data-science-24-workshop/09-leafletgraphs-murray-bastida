@@ -10,14 +10,14 @@ These materials will teach you the basics to create interactive maps with Leafle
 
 The repository is part of the [I2DS Tools for Data Science workshop](https://github.com/intro-to-data-science-24-workshop) run at the [Hertie School, Berlin](https://www.hertie-school.org/en/) in October 2024. The student-run workshop is part of the course [Introduction to Data Science](https://github.com/intro-to-data-science-24) taught by Prof. Dr. Simon Munzert at the Hertie School, Berlin, in Fall 2024.
 
-## Session contents
+## Session Contents
 
 The contents of this session will introduce Leaflet as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can add value to your toolbox as a data scientist or practitioner supporting policymakers and other stakeholders. 
 
 *Remember, a map is worth a thousand words!*
 
 
-## Main learning objectives
+## Main Learning Objectives
 
 The goals of this session are to:
 1. equip you with conceptual knowledge about to use the Leaflet package and integrate your own data sets;
