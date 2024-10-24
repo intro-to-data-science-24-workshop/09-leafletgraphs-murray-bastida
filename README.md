@@ -20,7 +20,7 @@ The contents of this session will introduce Leaflet as a data visualization tool
 ## Main Learning Objectives
 
 The goals of this session are to:
-1. equip you with conceptual knowledge about to use the Leaflet package and integrate your own data sets;
+1. equip you with conceptual knowledge to use the Leaflet package and integrate your own data sets;
 2. show you some key functions of the package to add markers, polygons, and other interesting layers; and
 3. provide you with concrete examples through a tutorial as well as additional resources. 
 
@@ -62,6 +62,6 @@ The material in this repository is made available under the [MIT license](http:/
 
 ## 👍 Statement of contributions
 
-*Elena and Franco* wrote the code for Leaflet, prepared the RMD and practice material together. They contributed equally to all workshop materials.
+*Elena and Franco* wrote the code for Leaflet, prepared the .Rmd and practice material together. They contributed equally to all workshop materials.
 
 <br>
