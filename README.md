@@ -2,24 +2,25 @@
 ### 👋 by Elena Murray and Franco Bastida!
 
 <br>
-
 ## Summary
 
-Hello there! If you came looking for Leaflet resources, this is your place! These materials will teach to the basics to create interactive maps with Leaflet.
+Hello there! If you came looking for Leaflet resources, this is your place! 
 
-The repository is part of the [I2DS Tools for Data Science workshop](https://github.com/intro-to-data-science-24-workshop) run at the [Hertie School, Berlin](https://www.hertie-school.org/en/) in October 2023. The student-run workshop is part of the course [Introduction to Data Science](https://github.com/intro-to-data-science-24) taught by Prof. Dr. Simon Munzert at the Hertie School, Berlin, in Fall 2024.
+These materials will teach you the basics to create interactive maps with Leaflet.
 
-### Session contents
+The repository is part of the [I2DS Tools for Data Science workshop](https://github.com/intro-to-data-science-24-workshop) run at the [Hertie School, Berlin](https://www.hertie-school.org/en/) in October 2024. The student-run workshop is part of the course [Introduction to Data Science](https://github.com/intro-to-data-science-24) taught by Prof. Dr. Simon Munzert at the Hertie School, Berlin, in Fall 2024.
 
-The contents of this session will introduce Leaflet as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can value to your toolbox as a data scientist or practitioner supporting policymakers and other interested parties. Remember, a map is worth a thousand words!
+## Session contents
+
+The contents of this session will introduce Leaflet as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can add value to your toolbox as a data scientist or practitioner supporting policymakers and other stakeholders. *Remember, a map is worth a thousand words!*
 
 
-### Main learning objectives
+## Main learning objectives
 
 The goals of this session are to:
-(1) equip you with conceptual knowledge about to use the Leaflet package and integrate your own data sets;
-(2) show you some key functions of the package to add markers, polygons, and other interesting layers; and
-(3) provide you with concrete examples through a tutorial as well as other material and readings. 
+1. equip you with conceptual knowledge about to use the Leaflet package and integrate your own data sets;
+2. show you some key functions of the package to add markers, polygons, and other interesting layers; and
+3. provide you with concrete examples through a tutorial as well as additional resources. 
 
 
 ## Tutorial
@@ -28,7 +29,7 @@ The session is accompanied by a tutorial, which can be accessed [here](x).
 
 ## Package Information
 
-- [Leaflet Package (2024) by Cheng, J., Schloerke, B., Karambelkar, B. & Xie, Y.](https://github.com/rstudio/leaflet)
+**Link**: [Leaflet Package (2024) by Cheng, J., Schloerke, B., Karambelkar, B. & Xie, Y.](https://github.com/rstudio/leaflet)
 
 
 ## 📊 Dataset Information
@@ -44,7 +45,6 @@ The session is accompanied by a tutorial, which can be accessed [here](x).
 
 
 **Link**: [Determinands of Airbnb Prices (2021) by Kristof, G & Lukasz, N.](https://zenodo.org/records/4446043)
-
 
 <br>
 
