@@ -1,7 +1,7 @@
 # IDS Workshop 2024 "Interactive Maps with Leaflet"
 ### 👋 by Elena Murray and Franco Bastida!
-
 <br>
+
 ## Summary
 
 Hello there! If you came looking for Leaflet resources, this is your place! 
@@ -12,7 +12,9 @@ The repository is part of the [I2DS Tools for Data Science workshop](https://git
 
 ## Session contents
 
-The contents of this session will introduce Leaflet as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can add value to your toolbox as a data scientist or practitioner supporting policymakers and other stakeholders. *Remember, a map is worth a thousand words!*
+The contents of this session will introduce Leaflet as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can add value to your toolbox as a data scientist or practitioner supporting policymakers and other stakeholders. 
+
+*Remember, a map is worth a thousand words!*
 
 
 ## Main learning objectives
