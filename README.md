@@ -1,6 +1,6 @@
 # IDS Workshop 2024 "Interactive Maps with Leaflet"
 ### 👋 by Elena Murray and Franco Bastida!
-<br>
+
 
 ## Summary
 
@@ -48,7 +48,6 @@ The session is accompanied by a tutorial, which can be accessed [here](x).
 
 **Link**: [Determinands of Airbnb Prices (2021) by Kristof, G & Lukasz, N.](https://zenodo.org/records/4446043)
 
-<br>
 
 ## 📚 Further Resources
 
