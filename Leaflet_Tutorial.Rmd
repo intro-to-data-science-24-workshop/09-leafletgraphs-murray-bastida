@@ -118,7 +118,7 @@ We will also be using Polygon data showing the different neighbourhoods of Berli
 
 ```{r}
 #Load the GeoJSON data file for the Christmas Markets
-markets_data <- st_read("markets.geojson")
+markets_data <- st_read("Leaflet_Tutorial_files/data/markets.geojson")
 
 #Load the Polygons data file
 polygon_data <- read_sf("leaflet_workshopslides_files/data/bezirksgrenzen.geojson")
