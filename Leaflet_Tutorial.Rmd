@@ -5,17 +5,26 @@ author: "@elenamurray, @francobastida"
 date: "`r format(Sys.time(), '%B %d, %Y | %H:%M:%S | %Z')`"
 output:
   html_document:
-    code_folding: show
+    toc: yes
     df_print: paged
-    highlight: tango
     number_sections: no
-    theme: cosmo
-    toc: no
+    highlight: tango
+    theme: sandstone
+    includes:
+      after_body: null
+    toc_depth: 3
+    toc_float: yes
+    css: custom.css
+    self_contained: no
+  word_document:
+    toc: yes
+    toc_depth: '3'
+institute: Hertie School
 ---
 
 ```{=html}
 <style>
-div.answer {background-color:#f3f0ff; border-radius: 5px; padding: 20px;}
+div.answer {background-color:#f3f0ff; border-radius: 5px; padding: 5px;}
 </style>
 ```
 ```{r, include=FALSE}
@@ -27,9 +36,25 @@ knitr::opts_chunk$set(echo = TRUE,
                       comment = NA)
 ```
 
+<br>
+
+The contents of this session will introduce `leaflet`  as a data visualization tool that can help you identify patterns, trends, and relationships that may not be obvious in raw data. This can add value to your toolbox as a data scientist or practitioner supporting policymakers and other stakeholders.
+
+**What are the objectives of this learning session?**
+
+The goals of this session are to:
+
+1. equip you with conceptual knowledge to use the Leaflet package and integrate your own data sets;
+2. show you some key functions of the package to add markers, polygons, and other interesting layers; and
+3. provide you with concrete examples through a tutorial as well as additional resources.
+
+# Getting Started with a Base Map
+
 First, install the packages that we need to use.
 
 ```{r, include = T}
+#Load the necessary packages
+
 library(htmlwidgets)
 library(leaflet)
 library(tidyverse)
@@ -38,47 +63,58 @@ library(jsonlite)
 library(RColorBrewer)
 ```
 
-<h2><strong>Getting Started</strong></h2>
+## Setting up a Base Map
 
-<h4><strong>Setting up a base map</strong></h4>
+Let's start by adding the base tiles of the map, and adding one marker for a point of interest. Remember:
 
 -   `addTiles()` add your base map layer using OpenStreetMap
 
 -   `addMarkers()` pinpoint a point of interest on the map
 
-Let's start by adding the base tiles of the map, and adding one marker for a point of interest. You can find the coordinates (the longitude and the latitude) to many points of interest on the [Open Street Map Website](https://www.openstreetmap.org/). 
+What's a place that you have top of mind? You can find the coordinates (the longitude and the latitude) to many points of interest on the [Open Street Map Website](https://www.openstreetmap.org/). 
 
 ```{r}
-m <- leaflet() %>%
-  addTiles() %>%  # Add default OpenStreetMap map tiles
-  addMarkers(lng=1, lat=1, popup="Add your text here") #Add your desired coordinates and message for the pop-up. 
-m  # Print the map
+#Adding a base map and coordinates
+example <- leaflet() %>%
+  addTiles() %>%  #Add default OpenStreetMap map tiles
+  addMarkers(lng=4.3007, lat=52.0705,  #Include desired coordinates 
+  					 popup="Hello the Hague!") #Include pop-up message 
+
+example  #Print the map
 ```
+<br>
 
-<h4><strong>Changing the Bse Map</strong></h4>
+# Changing the Base Map 
 
-As mentioned in the presentation, OpenStreetMap is not the only base of tiles that can be used. Many other popular free third-party basemaps can be added using the addProviderTiles() function, which is implemented using the leaflet-providers plugin. You can find the full list of options [here](https://leaflet-extras.github.io/leaflet-providers/preview/index.html). 
-Leaflet also provides a named list of all the third-party tile providers that are supported by the plugin. This enables you to use auto-completion feature of your favorite R IDE (like RStudio) and not have to remember or look up supported tile providers; just type providers$ and choose from one of the options. You can also use names(providers) to view all of the options.
+Did you know that OpenStreetMap is not the only base map that you can use? Many other free, third-party base maps can be added using the `addProviderTiles()` function, using the leaflet-providers plugin. You can find the full list of options [here](https://leaflet-extras.github.io/leaflet-providers/preview/index.html). 
 
-Open the website with different map options linked above to see some of the different options, and let's try using some different examples here:
+**Leaflet** also provides a list of all the third-party tile providers that are supported by the plugin. This enables you to use auto-completion feature of your favorite IDE (like RStudio) and not have to remember or look up tile providers; just type `providers$` and choose from one of the options. You can also use `names(providers)` to view all of the options.
 
 ```{r}
-#Using a NatGeo Map
-m %>% addProviderTiles(providers$Esri.NatGeoWorldMap)
-
-#Using a Watercolour Map
-m %>% addProviderTiles(providers$Stadia.StamenWatercolor)
-
-#Select another of the options from the link above and try it here:
-
-
+#Using different map options e.g. OpenRailway
+example %>% addProviderTiles(providers$OpenRailwayMap)
 ```
 
-<h4><strong>Adding Data</strong></h4>
+## Exercise 1
 
-We will now import the data sets we'll be using for the next exercise. We are using a GeoJSON file containing the location of all the Christmas Markets in Berlin, which was taken from the [Berlin Open Data Portal](https://daten.berlin.de/datensaetze/simple_search_wwwberlindesenwebservicemaerktefesteweihnachtsmaerkte).
+For this exercise, you will warm up and use the functions to create a map that:
 
-We will also be using Polygon data showing the different neighbourhoods of Berlin, as in the presentation we will use GeoJSON data from [Geoportal Berlin (2017)](https://daten.odis-berlin.de/de/dataset/bezirksgrenzen/).
+-  looks up a unique location
+-  adds a marker with a message
+-  includes a base map from the providers' list
+
+```{r}
+#Please show your Map 1 code here
+  
+```
+
+<br>
+
+# Importing Data 
+
+We will now import the data sets we'll be using for the next exercise. We are using a GeoJSON file containing the location of all the **Christmas Markets in Berlin**, which was taken from the [Berlin Open Data Portal](https://daten.berlin.de/datensaetze/simple_search_wwwberlindesenwebservicemaerktefesteweihnachtsmaerkte).
+
+We will also be using Polygon data showing the different neighbourhoods of Berlin, in this case we will use GeoJSON data from [Geoportal Berlin (2017)](https://daten.odis-berlin.de/de/dataset/bezirksgrenzen/).
 
 ```{r}
 #Load the GeoJSON data file for the Christmas Markets
@@ -89,21 +125,25 @@ polygon_data <- read_sf("leaflet_workshopslides_files/data/bezirksgrenzen.geojso
 
 ```
 
-<h4><strong>Adding Markers</strong></h4>
+<br>
 
-Let's use the data set to add a marker for each Christmas market on a map of Berlin. Within this data set, there is columnn titled 'Data' that contains a JSON string with details about each Christmas market, including the name, address, and other attributes. To extract and display the relevant information from the data column, we will need to first parse the JSON strings within that column, and then we can create the leaflet map. 
+### Adding Markers
+
+Let's use the data set to add a marker for each Christmas market on a map of Berlin. Within this data set, there is columnn titled 'Data' that contains a JSON string with details about each Christmas market, including the name, address, and other attributes. 
+
+To extract and display the relevant information from the data column, we will need to first parse the JSON strings within that column, and then we can create the Leaflet map. 
 
 ```{r}
-# Parse the JSON data in the 'data' column
+#Parse the JSON data in the 'data' column
 markets_data$data_parsed <- lapply(markets_data$data, fromJSON)
 
-# Convert the list into a data frame and bind it to the original dataset
+#Convert the list into a data frame and bind it to the original dataset
 markets_data_parsed <- do.call(rbind, lapply(markets_data$data_parsed, as.data.frame))
 
-# Combine the parsed data with the original dataset
+#Combine the parsed data with the original dataset
 markets_full <- cbind(markets_data, markets_data_parsed)
 
-# Create the leaflet map
+#Create the leaflet map
 leaflet(markets_full) %>%
   addTiles() %>%
   setView(lng = 13.4050, lat = 52.52, zoom = 12) %>%
@@ -117,11 +157,11 @@ leaflet(markets_full) %>%
                    "<br><strong>Organizer:</strong> ", markets_full$veranstalter,
                    "<br><strong>Email:</strong> ", markets_full$email)
   )
-
-
 ```
 
-<h4><strong>Adding Markers</strong></h4>
+<br>
+
+## Adding Polygons
 
 We can now add the polygon data to this map, so we can easily see which markets are in which neighbourhood in Berlin. 
 
@@ -129,12 +169,12 @@ We can now add the polygon data to this map, so we can easily see which markets 
 #Combine the two data sets
 combined_data <- st_join(markets_full, polygon_data, join = st_within)
 
-# Create Leaflet map
+#Create Leaflet map
 leaflet() %>%
   addTiles() %>%
   setView(lng = 13.4050, lat = 52.52, zoom = 12) %>%
   
-  # Add neighborhood polygons
+#Add neighborhood polygons
   addPolygons(data = polygon_data, 
                fillColor = "lightblue", 
                color = "black", 
@@ -150,7 +190,7 @@ leaflet() %>%
                label = ~Gemeinde_name  
   ) %>%  
   
-  # Add market markers
+#Add market markers
   addMarkers(
     data = combined_data, 
     lng = st_coordinates(combined_data)[, 1],   # Longitude
@@ -163,3 +203,24 @@ leaflet() %>%
   )  
 ```
 
+<br>
+
+## Exercise 2
+
+For this exercise, you will create a map of Berlin with the open data from [Kristof and Lukasz (2021)](https://zenodo.org/records/4446043 ) on rental listings in European cities. His example uses the `berlin_weekends.csv` file on Airbnb listings from the repo. Here, you will construct either...
+
+- option a) map that clusters markers according to cleanliness (hint: you will have to mutate or analyze the current data frame)
+- option b) map that creates a range for the level of guest satisfaction to color each district (hint: you will have to join the data)
+
+```{r}
+#Please show your Map 2 code here
+  
+```
+
+<br>
+
+There are more resources available in the [repository page](https://github.com/intro-to-data-science-24-workshop/09-leafletgraphs-murray-bastida) that we have created. Remember to check out the presentation and materials, as they could provide valuable insights for troubleshooting, examples, and inspiration. 
+
+Happy mapping!
+
+### Thank you!
