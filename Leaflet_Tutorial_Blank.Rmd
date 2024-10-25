@@ -1,0 +1,165 @@
+---
+title: "Interactive Maps with Leaflet"
+subtitle: "Using Leaflet: A Tutorial"
+author: "@elenamurray, @francobastida"
+date: "`r format(Sys.time(), '%B %d, %Y | %H:%M:%S | %Z')`"
+output:
+  html_document:
+    code_folding: show
+    df_print: paged
+    highlight: tango
+    number_sections: no
+    theme: cosmo
+    toc: no
+---
+
+```{=html}
+<style>
+div.answer {background-color:#f3f0ff; border-radius: 5px; padding: 20px;}
+</style>
+```
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+```
+
+First, install the packages that we need to use.
+
+```{r, include = T}
+library(htmlwidgets)
+library(leaflet)
+library(tidyverse)
+library(sf)
+library(jsonlite)
+library(RColorBrewer)
+```
+
+<h2><strong>Getting Started</strong></h2>
+
+<h4><strong>Setting up a base map</strong></h4>
+
+-   `addTiles()` add your base map layer using OpenStreetMap
+
+-   `addMarkers()` pinpoint a point of interest on the map
+
+Let's start by adding the base tiles of the map, and adding one marker for a point of interest. You can find the coordinates (the longitude and the latitude) to many points of interest on the [Open Street Map Website](https://www.openstreetmap.org/). 
+
+```{r}
+m <- leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=1, lat=1, popup="Add your text here") #Add your desired coordinates and message for the pop-up. 
+m  # Print the map
+```
+
+<h4><strong>Changing the Bse Map</strong></h4>
+
+As mentioned in the presentation, OpenStreetMap is not the only base of tiles that can be used. Many other popular free third-party basemaps can be added using the addProviderTiles() function, which is implemented using the leaflet-providers plugin. You can find the full list of options [here](https://leaflet-extras.github.io/leaflet-providers/preview/index.html). 
+Leaflet also provides a named list of all the third-party tile providers that are supported by the plugin. This enables you to use auto-completion feature of your favorite R IDE (like RStudio) and not have to remember or look up supported tile providers; just type providers$ and choose from one of the options. You can also use names(providers) to view all of the options.
+
+Open the website with different map options linked above to see some of the different options, and let's try using some different examples here:
+
+```{r}
+#Using a NatGeo Map
+m %>% addProviderTiles(providers$Esri.NatGeoWorldMap)
+
+#Using a Watercolour Map
+m %>% addProviderTiles(providers$Stadia.StamenWatercolor)
+
+#Select another of the options from the link above and try it here:
+
+
+```
+
+<h4><strong>Adding Data</strong></h4>
+
+We will now import the data sets we'll be using for the next exercise. We are using a GeoJSON file containing the location of all the Christmas Markets in Berlin, which was taken from the [Berlin Open Data Portal](https://daten.berlin.de/datensaetze/simple_search_wwwberlindesenwebservicemaerktefesteweihnachtsmaerkte).
+
+We will also be using Polygon data showing the different neighbourhoods of Berlin, as in the presentation we will use GeoJSON data from [Geoportal Berlin (2017)](https://daten.odis-berlin.de/de/dataset/bezirksgrenzen/).
+
+```{r}
+#Load the GeoJSON data file for the Christmas Markets
+markets_data <- st_read("markets.geojson")
+
+#Load the Polygons data file
+polygon_data <- read_sf("leaflet_workshopslides_files/data/bezirksgrenzen.geojson")
+
+```
+
+<h4><strong>Adding Markers</strong></h4>
+
+Let's use the data set to add a marker for each Christmas market on a map of Berlin. Within this data set, there is columnn titled 'Data' that contains a JSON string with details about each Christmas market, including the name, address, and other attributes. To extract and display the relevant information from the data column, we will need to first parse the JSON strings within that column, and then we can create the leaflet map. 
+
+```{r}
+# Parse the JSON data in the 'data' column
+markets_data$data_parsed <- lapply(markets_data$data, fromJSON)
+
+# Convert the list into a data frame and bind it to the original dataset
+markets_data_parsed <- do.call(rbind, lapply(markets_data$data_parsed, as.data.frame))
+
+# Combine the parsed data with the original dataset
+markets_full <- cbind(markets_data, markets_data_parsed)
+
+# Create the leaflet map
+leaflet(markets_full) %>%
+  addTiles() %>%
+  setView(lng = 13.4050, lat = 52.52, zoom = 12) %>%
+  addMarkers(
+    data = markets_full, 
+    lng = st_coordinates(markets_full)[,1],   # Longitude
+    lat = st_coordinates(markets_full)[,2],    # Latitude
+    popup = ~paste("<strong>Market:</strong> ", markets_full$name, 
+                   "<br><strong>Address:</strong> ", markets_full$strasse, 
+                   "<br><strong>Opening hours:</strong> ", markets_full$oeffnungszeiten,
+                   "<br><strong>Organizer:</strong> ", markets_full$veranstalter,
+                   "<br><strong>Email:</strong> ", markets_full$email)
+  )
+
+
+```
+
+<h4><strong>Adding Markers</strong></h4>
+
+We can now add the polygon data to this map, so we can easily see which markets are in which neighbourhood in Berlin. 
+
+```{r}
+#Combine the two data sets
+combined_data <- st_join(markets_full, polygon_data, join = st_within)
+
+# Create Leaflet map
+leaflet() %>%
+  addTiles() %>%
+  setView(lng = 13.4050, lat = 52.52, zoom = 12) %>%
+  
+  # Add neighborhood polygons
+  addPolygons(data = polygon_data, 
+               fillColor = "lightblue", 
+               color = "black", 
+               weight = 1, 
+               opacity = 0.5, 
+               fillOpacity = 0.5, 
+               highlightOptions = highlightOptions(
+                 weight = 2,
+                 color = "white",
+                 fillOpacity = 0.7,
+                 bringToFront = TRUE
+               ),
+               label = ~Gemeinde_name  
+  ) %>%  
+  
+  # Add market markers
+  addMarkers(
+    data = combined_data, 
+    lng = st_coordinates(combined_data)[, 1],   # Longitude
+    lat = st_coordinates(combined_data)[, 2],    # Latitude
+    popup = ~paste("<strong>Market:</strong> ", combined_data$name, 
+                   "<br><strong>Address:</strong> ", combined_data$strasse, 
+                   "<br><strong>Opening hours:</strong> ", combined_data$oeffnungszeiten,
+                   "<br><strong>Organizer:</strong> ", combined_data$veranstalter,
+                   "<br><strong>Email:</strong> ", combined_data$email)
+  )  
+```
+

@@ -198,7 +198,7 @@ leaflet() %>%
 Although the map works, it was not overly useful. **What if we combined Polygons with our listing data?**
 
 ```{r, echo=TRUE, include=TRUE, out.width="60%", out.height="40%", fig.align= 'center'}
-#Conerting Airbnb data into sf objects
+#Converting Airbnb data into sf objects
 airbnb_sf <- st_as_sf(airbnb_data, coords = c("lng", "lat"), crs = 4326, remove = FALSE)
 
 #Perform a spatial join assigning each Airbnb listing to a polygon
